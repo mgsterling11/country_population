@@ -20,19 +20,19 @@ func countryInformation(country string) (CountryPopulation, error) {
 
 	resp, err := http.Get("http://api.population.io/1.0/population/" + encodedCountryName.String() + "/" + date)
 
-  if err != nil {
-    return CountryPopulation{}, err
-  }
+	if err != nil {
+		return CountryPopulation{}, err
+	}
 
-  defer resp.Body.Close()
+	defer resp.Body.Close()
 
-  var population CountryPopulation
+	var population CountryPopulation
 
-  if err := json.NewDecoder(resp.Body).Decode(&population); err != nil {
-    return CountryPopulation{}, err
-  }
+	if err := json.NewDecoder(resp.Body).Decode(&population); err != nil {
+		return CountryPopulation{}, err
+	}
 
-  return population, nil
+	return population, nil
 }
 
 func serverConnect(w http.ResponseWriter, r *http.Request) {
@@ -53,8 +53,8 @@ func main() {
 			return
 		}
 
-    w.Header().Set("Content-Type", "application/json; charset=utf-8")
-    json.NewEncoder(w).Encode(data)
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
+		json.NewEncoder(w).Encode(data)
 	})
 
 	http.ListenAndServe(":8080", nil)
@@ -62,9 +62,9 @@ func main() {
 
 type CountryPopulation struct {
 	TotalPopulation struct {
-		Date string `json:"date"`
-		Population int `json:"population"`
-	}`json:"total_population"`
+		Date       string `json:"date"`
+		Population int    `json:"population"`
+	} `json:"total_population"`
 }
 
 // SAMPLE RESPONSE FROM http://api.population.io:80/1.0/population/Brazil/2015-12-24/
